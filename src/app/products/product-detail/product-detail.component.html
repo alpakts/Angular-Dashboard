@@ -1,0 +1,45 @@
+<mat-card class="product-detail-card" *ngIf="product">
+  <mat-card-header>
+    <mat-card-title>{{ product.name }}</mat-card-title>
+    <mat-card-subtitle>{{ product.category }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="product-info">
+      <div class="info-item">
+        <span class="label">Price:</span>
+        <span class="value">{{ product.price | currency }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Stock:</span>
+        <span class="value">{{ product.stock }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Reorder Point:</span>
+        <span class="value">{{ product.reorderPoint }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Expiry Date:</span>
+        <span class="value">{{ product.expiryDate || 'N/A' }}</span>
+      </div>
+    </div>
+
+    <div class="stock-adjustments">
+      <h3>Stock Adjustments</h3>
+      <mat-list *ngIf="product.stockAdjustments && product.stockAdjustments.length > 0">
+        <mat-list-item *ngFor="let adjustment of product.stockAdjustments">
+          <div class="adjustment-item">
+            <p><strong>{{ adjustment.date | date: 'hh:mm - dd/M/YYYY' }}</strong></p>
+            <p>{{ adjustment.quantity }} ({{ adjustment.reason }})</p>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="openStockAdjustmentDialog()">
+      Adjust Stock
+    </button>
+  </mat-card-actions>
+</mat-card>

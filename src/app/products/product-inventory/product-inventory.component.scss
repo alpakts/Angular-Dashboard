@@ -1,0 +1,126 @@
+.inventory-container {
+  padding: 20px;
+  .filter-container {
+    display: flex;
+    max-height: 0;
+    overflow: hidden;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    transition: .3s all;
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      gap: 10px;
+    }
+    &.open{
+      transform: scale(1);
+      max-height: unset;
+      padding: 10px;
+      overflow: auto;
+    }
+
+    .filter-item {
+      width: 100%;
+      align-items: center;
+      .filter-label {
+        font-weight: bold;
+        color: var(--mat-sys-on-surface);
+      }
+      .range-values {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        @media screen and (max-width: 768px) {
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+    }
+  }
+
+  .table-button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    &__table-button {
+      padding: 10px 20px;
+      background-color: var(--mat-sys-primary-container);
+      color: var(--mat-sys-on-primary-container);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: .3s all;
+
+      &:hover {
+        background-color: var(--mat-sys-primary-container-variant);
+      }
+    }
+  }
+
+  table {
+    width: 100%;
+    margin-top: 20px;
+    user-select: none;
+    border-radius: 1rem;
+    overflow: auto;
+    border: 1px solid var(--mat-sys-primary-container);
+    padding: 5px;
+
+    th {
+      user-select: none;
+      background-color: var(--mat-sys-primary-container);
+      color: var(--mat-sys-on-primary-container);
+      font-weight: bold;
+    }
+
+    td {
+      padding: 10px;
+      color: var(--mat-sys-on-surface);
+    }
+  }
+
+  .low-stock-alert,
+  .expired-alert,
+  .approaching-expiry-alert {
+    background-color: var(--mat-sys-error-container);
+    color: var(--mat-sys-on-error-container);
+    padding: 5px;
+    width: fit-content;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+
+  .slider-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 5px;
+      background: var(--mat-sys-outline);
+      border-radius: 5px;
+      outline: none;
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  .range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}

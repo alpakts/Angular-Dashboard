@@ -1,0 +1,39 @@
+.notification-link {
+  text-decoration: none;
+  color: var(--mat-sys-on-surface); /* Material metin rengi */
+  font-weight: bold;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--mat-sys-primary); /* Hover durumunda Material primary rengi */
+  }
+}
+
+.notification-container {
+  position: fixed;
+  top: 16px;
+  right: 25px;
+  z-index: 1000;
+
+  button {
+    display: flex;
+    width: fit-content;
+    background-color: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
+    padding: 8px 12px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      background-color: var(--mat-sys-primary-container);
+      color: var(--mat-sys-on-primary-container);
+      box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      background-color: var(--mat-sys-primary);
+      color: var(--mat-sys-on-primary);
+    }
+  }
+}

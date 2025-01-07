@@ -1,0 +1,8 @@
+<nav class="sidebar">
+  <ul>
+    <li><a routerLink="/" routerLinkActive="active"  [routerLinkActiveOptions]="{ exact: true }">Dashboard</a></li>
+    <li><a routerLink="/products" routerLinkActive="active">Products</a></li>
+    <li><a routerLink="/users" routerLinkActive="active">Users</a></li>
+    <li><a routerLink="/login" (click)="logout()">Logout</a></li>
+  </ul>
+</nav>

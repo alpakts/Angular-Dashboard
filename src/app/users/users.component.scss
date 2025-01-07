@@ -1,0 +1,41 @@
+.user-management {
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--mat-sys-surface);
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--mat-sys-primary);
+  }
+
+
+  table {
+    width: 100%;
+    margin-top: 20px;
+    padding: 5px;
+    border-collapse: collapse;
+    background-color: var(--mat-sys-surface);
+    border-radius: 8px;
+    border: 1px solid var(--mat-sys-primary);
+    overflow: hidden;
+
+
+
+
+    tr:nth-child(even) {
+      background-color: var(--mat-sys-surface-container);
+    }
+
+    tr:hover {
+      background-color: var(--mat-sys-surface-container-highest);
+    }
+  }
+
+
+
+}

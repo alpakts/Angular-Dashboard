@@ -1,0 +1,121 @@
+[
+  {
+    "id": 1,
+    "name": "Product A",
+    "category": "Electronics",
+    "price": 120,
+    "stock": 8,
+    "reorderPoint": 10,
+    "expiryDate": "2025-01-01",
+    "stockAdjustments": [
+      { "date": "2025-01-10", "quantity": -2, "reason": "Sales" },
+      { "date": "2025-01-12", "quantity": 5, "reason": "Restocking" }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Product B",
+    "category": "Electronics",
+    "price": 85,
+    "stock": 12,
+    "reorderPoint": 15,
+    "expiryDate": "2025-08-20",
+    "stockAdjustments": [
+      { "date": "2025-01-11", "quantity": -3, "reason": "Sales" }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Product C",
+    "category": "Home Appliances",
+    "price": 150,
+    "stock": 5,
+    "reorderPoint": 7,
+    "expiryDate": "2025-09-10",
+    "stockAdjustments": [
+      { "date": "2025-01-08", "quantity": 3, "reason": "Restocking" }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Product D",
+    "category": "Home Appliances",
+    "price": 200,
+    "stock": 18,
+    "reorderPoint": 12,
+    "expiryDate": "2025-07-25",
+    "stockAdjustments": [
+      { "date": "2025-01-09", "quantity": -2, "reason": "Sales" }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Product E",
+    "category": "Books",
+    "price": 25,
+    "stock": 45,
+    "reorderPoint": 20,
+    "expiryDate": "2025-10-30",
+    "stockAdjustments": [
+      { "date": "2025-01-06", "quantity": 10, "reason": "Restocking" }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Product F",
+    "category": "Books",
+    "price": 15,
+    "stock": 3,
+    "reorderPoint": 5,
+    "expiryDate": "2025-04-15",
+    "stockAdjustments": [
+      { "date": "2025-01-14", "quantity": -2, "reason": "Sales" }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Product G",
+    "category": "Furniture",
+    "price": 300,
+    "stock": 2,
+    "reorderPoint": 5,
+    "expiryDate": "2025-05-01",
+    "stockAdjustments": [
+      { "date": "2025-01-07", "quantity": -3, "reason": "Damage" }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Product H",
+    "category": "Furniture",
+    "price": 450,
+    "stock": 10,
+    "reorderPoint": 5,
+    "expiryDate": "2025-03-20",
+    "stockAdjustments": [
+      { "date": "2025-01-12", "quantity": 5, "reason": "Restocking" }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Product I",
+    "category": "Clothing",
+    "price": 40,
+    "stock": 25,
+    "reorderPoint": 10,
+    "expiryDate": "2025-11-01",
+    "stockAdjustments": []
+  },
+  {
+    "id": 10,
+    "name": "Product J",
+    "category": "Clothing",
+    "price": 60,
+    "stock": 0,
+    "reorderPoint": 5,
+    "expiryDate": "2025-02-20",
+    "stockAdjustments": [
+      { "date": "2025-01-13", "quantity": -5, "reason": "Sales" }
+    ]
+  }
+]

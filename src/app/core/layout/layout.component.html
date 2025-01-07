@@ -1,0 +1,22 @@
+<mat-sidenav-container class="layout">
+  <mat-sidenav #sidenav mode="side" class="sidebar">
+    <app-sidebar></app-sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Fuel Station Manager</span>
+
+      <span class="spacer"></span>
+
+
+      <app-notification [notifications]="notifications"></app-notification>
+    </mat-toolbar>
+    <main class="layout__main">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

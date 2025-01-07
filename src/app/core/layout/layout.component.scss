@@ -1,0 +1,44 @@
+.layout {
+  height: 100vh;
+  overflow: hidden;
+  &__main{
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+}
+mat-sidenav{
+  overflow: hidden;
+  border-radius: 0;
+}
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  border: none;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  button{
+    border: none;
+    pad: 5px;
+    background-color: transparent;
+    cursor: pointer;
+  }
+}
+::ng-deep .mat-sidenav {
+  overflow: hidden !important;
+}
+
+::ng-deep .mat-drawer-inner-container {
+  overflow: hidden !important;
+}
+mat-toolbar button {
+  margin-right: 10px;
+}
+.mat-drawer-inner-container {
+  overflow: hidden !important;
+}
+.spacer {
+  flex: 1 1 auto;
+}

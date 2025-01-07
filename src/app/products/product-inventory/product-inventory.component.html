@@ -1,0 +1,156 @@
+<ng-template #lowStockTemplate let-row>
+  <span>
+    {{ row.stock }}
+    <span *ngIf="row.stock < row.reorderPoint" class="low-stock-warning">
+      (Low Stock)
+    </span>
+  </span>
+</ng-template>
+<div class="inventory-container">
+  <h1 class="inventory-container__title" >Product Inventory</h1>
+
+  <div style="overflow-x: auto;margin-top: 20px;">
+    <div class="table-button-container">
+      <mat-form-field appearance="outline" class="table-button-container__search-bar">
+        <mat-label>Search Products</mat-label>
+        <input
+          matInput
+          [(ngModel)]="searchQuery"
+          (input)="applyFilters()"
+          placeholder="Search by name"
+        />
+      </mat-form-field>
+      <div class="table-button-container">
+        <button mat-raised-button color="primary" class="table-button-container__table-button" (click)="exportTableToExcel()">
+          Export to CSV
+        </button>
+        <button mat-raised-button color="primary" class="table-button-container__table-button" (click)="openAddModal()">
+          Add Product
+        </button>
+        <button mat-raised-button color="primary" class="table-button-container__table-button" (click)="filterOpenState.set(!filterOpenState())">
+          {{ filterOpenState() ? 'Close Filters' : 'Open Filters' }}
+        </button>
+      </div>
+
+
+    </div>
+    <div class="filter-container"  [ngClass]="{ 'open': filterOpenState() }" >
+
+      <mat-form-field appearance="outline" class="filter-item">
+        <mat-label>Category</mat-label>
+        <mat-select
+          [(ngModel)]="categoryFilter"
+          (selectionChange)="applyFilters()"
+        >
+          <mat-option value="">All Categories</mat-option>
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filter-item">
+        <mat-label>Stock Level</mat-label>
+        <mat-select [(ngModel)]="stockFilter" (selectionChange)="applyFilters()">
+          <mat-option value="all">All Stock</mat-option>
+          <mat-option value="low">Low Stock</mat-option>
+          <mat-option value="high">Sufficient Stock</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filter-item">
+        <mat-label>Expiry Status</mat-label>
+        <mat-select [(ngModel)]="expiryFilter" (selectionChange)="applyFilters()">
+          <mat-option value="all">All Products</mat-option>
+          <mat-option value="approaching">Approaching Expiry</mat-option>
+          <mat-option value="expired">Expired</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="filter-item">
+        <mat-label>Price Range</mat-label>
+        <mat-slider
+          min="{{ minPrice }}"
+          max="{{ maxPrice }}"
+          (input)="applyFilters()"
+        >
+          <input [(ngModel)]="priceRange.min" matSliderStartThumb />
+          <input [(ngModel)]="priceRange.max" matSliderEndThumb />
+        </mat-slider>
+        <div class="range-values">
+          <span>Min: ${{ priceRange.min }}</span>
+          <span>Max: ${{ priceRange.max }}</span>
+        </div>
+      </div>
+    </div>
+    <app-generic-table
+    [data]="dataSource.filteredData"
+    [columns]="columns"
+    [actions]="true"
+    (actionClick)="handleAction($event)"
+  ></app-generic-table>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let product">{{ product.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+        <td mat-cell *matCellDef="let product">{{ product.category }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+        <td mat-cell *matCellDef="let product">${{ product.price }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="stock">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock</th>
+        <td mat-cell *matCellDef="let product">{{ product.stock }} <span [innerHTML]="product | dynamicMessage:'Low Stock':'red':isLowStock"></span></td>
+      </ng-container>
+      <ng-container matColumnDef="reorderPoint">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Reorder Point</th>
+        <td mat-cell *matCellDef="let product">{{ product.reorderPoint }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="expiryDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Expiry Date </th>
+        <td mat-cell *matCellDef="let product">
+          {{
+            product.expiryDate
+              ? (product.expiryDate | date : "shortDate")
+              : "N/A"
+          }}
+          <span [innerHTML]="product | dynamicMessage:'Expired':'red':isExpired"></span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let product">
+          <button mat-icon-button [matMenuTriggerFor]="actionMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #actionMenu="matMenu">
+            <button mat-menu-item (click)="deleteProduct(product)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+            <button mat-menu-item (click)="goToDetail(product)">
+              <mat-icon>info</mat-icon>
+              <span>Details</span>
+            </button>
+            <button mat-menu-item (click)="openUpdateModal(product)">
+              <mat-icon>edit</mat-icon>
+              <span>Update</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

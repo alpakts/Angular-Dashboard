@@ -1,0 +1,21 @@
+<div class="generic-modal">
+  <div class="generic-modal__header">
+    <h2 class="generic-modal__title">{{ title }}</h2>
+    <button
+      mat-icon-button
+      class="generic-modal__close-button"
+      (click)="onCancel()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="generic-modal__content">
+    <ng-container #contentContainer></ng-container>
+  </div>
+
+  <div class="generic-modal__actions">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+  </div>
+</div>

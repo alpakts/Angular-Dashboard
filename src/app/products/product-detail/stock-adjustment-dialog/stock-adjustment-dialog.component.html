@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Adjust Stock for {{ data.product.name }}</h1>
+<br>
+<div mat-dialog-content>
+  <!-- Quantity Input -->
+  <mat-form-field appearance="outline">
+    <mat-label>Quantity</mat-label>
+    <input matInput type="number" [(ngModel)]="quantity" />
+  </mat-form-field>
+
+  <!-- Reason Dropdown -->
+  <mat-form-field appearance="outline">
+    <mat-label>Reason</mat-label>
+    <mat-select [(ngModel)]="reason">
+      <mat-option value="sales">Sales</mat-option>
+      <mat-option value="damage">Damage</mat-option>
+      <mat-option value="restock">Restock</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="save()">Save</button>
+</div>
