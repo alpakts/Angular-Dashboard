@@ -1,5 +1,3 @@
-import { StockReason } from "../product-detail/product-detail.component";
-
 export interface Product {
   id: number;
   name: string;

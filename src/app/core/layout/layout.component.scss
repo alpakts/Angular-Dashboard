@@ -7,12 +7,23 @@
     padding: 1rem;
   }
 }
+.dark-mode-button{
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  z-index: 1000;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--mat-sys-on-surface);
+}
 mat-sidenav{
   overflow: hidden;
   border-radius: 0;
 }
 mat-toolbar {
   position: sticky;
+  height: 80px;
   top: 0;
   z-index: 1000;
   display: flex;
@@ -41,4 +52,17 @@ mat-toolbar button {
 }
 .spacer {
   flex: 1 1 auto;
+}
+.theme-toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  margin-right: 60px;
+  background-color: var(--icon-color);
+  button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
 }

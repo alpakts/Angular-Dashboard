@@ -17,13 +17,13 @@
         .label {
           font-weight: bold;
           color: var(--mat-sys-on-surface);
-          width: 40%; /* Etiket genişliği */
+          width: 40%;
         }
 
         .value {
           color: var(--mat-sys-on-surface-variant);
           text-align: right;
-          width: 60%; /* Değer genişliği */
+          width: 60%;
         }
       }
     }

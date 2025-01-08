@@ -25,12 +25,11 @@ import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/c
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ProductService } from '../services/product.service';
 import { DynamicMessagePipe } from '../../shared/pipes/alert.pipe';
-import { ɵcreateInjector } from '@angular/core';
 import { GenericModalComponent } from '../../shared/components/generic-modal/generic-modal.component';
 import { UpdateProductFormComponent } from '../components/update-form/update-form.component';
 import { Product } from '../models/product-model';
 import * as XLSX from 'xlsx';
-import { GenericTableComponent } from "../../shared/components/generic-table/generic-table.component";
+import { HasPermissionDirective } from '../../auth/directives/has-permission.directive';
 
 @Component({
   selector: 'app-product-inventory',
@@ -48,14 +47,13 @@ import { GenericTableComponent } from "../../shared/components/generic-table/gen
     MatExpansionModule,
     MatMenuModule,
     DynamicMessagePipe,
-    GenericTableComponent
+    HasPermissionDirective
 ],
   templateUrl: './product-inventory.component.html',
   styleUrls: ['./product-inventory.component.scss'],
 })
 export class ProductInventoryComponent implements OnInit {
   @ViewChild('lowStockTemplate', { static: true }) lowStockTemplate!: TemplateRef<any>;
-  columns: { field: string; header: string; cellTemplate?: TemplateRef<any> }[] = [];
   displayedColumns: string[] = [
     'name',
     'category',
@@ -90,14 +88,6 @@ export class ProductInventoryComponent implements OnInit {
       this.originalData = data;
       this.dataSource.data = data;
       this.dataSource.sort = this.sort;
-      this.columns = [
-        { field: 'name', header: 'Name' },
-        { field: 'category', header: 'Category' },
-        { field: 'price', header: 'Price' },
-        { field: 'stock', header: 'Stock', cellTemplate: this.lowStockTemplate },
-        { field: 'reorderPoint', header: 'Reorder Point' },
-        { field: 'expiryDate', header: 'Expiry Date' },
-      ];
       this.categories = Array.from(
         new Set(data.map((product) => product.category))
       );
@@ -106,22 +96,6 @@ export class ProductInventoryComponent implements OnInit {
       this.maxPrice = Math.max(...prices);
       this.priceRange = { min: this.minPrice, max: this.maxPrice };
     });
-  }
-  handleAction(event: { action: string; row: any }): void {
-    const { action, row } = event;
-    switch (action) {
-      case 'edit':
-        this.openUpdateModal(row);
-        break;
-      case 'delete':
-        this.deleteProduct(row);
-        break;
-      case 'view':
-        this.goToDetail(row);
-        break;
-      default:
-        console.log('Unknown action:', action);
-    }
   }
   applyFilters(): void {
     const filters = {
@@ -211,12 +185,11 @@ export class ProductInventoryComponent implements OnInit {
         injector: Injector.create({
           providers: [{ provide: 'product', useValue: product }],
         }),
-        contentData: { product: { ...product } }, // Pass the product data to the form
+        contentData: { product: { ...product } },
       },
     });
 
     dialogRef.afterClosed().subscribe((updatedProduct) => {
-      debugger;
       if (updatedProduct) {
         console.log('Updated Product:', updatedProduct);
         this.productService.updateProduct(updatedProduct.id, updatedProduct).subscribe(() => {
@@ -245,12 +218,11 @@ export class ProductInventoryComponent implements OnInit {
         injector: Injector.create({
           providers: [{ provide: 'product', useValue: newProduct }],
         }),
-        contentData: { product: newProduct }, // Pass the new product data
+        contentData: { product: newProduct },
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
       if (result) {
         this.productService.addProduct(result).subscribe(() => this.refreshData());
       }

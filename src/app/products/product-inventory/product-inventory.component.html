@@ -1,94 +1,79 @@
-<ng-template #lowStockTemplate let-row>
-  <span>
-    {{ row.stock }}
-    <span *ngIf="row.stock < row.reorderPoint" class="low-stock-warning">
-      (Low Stock)
-    </span>
-  </span>
-</ng-template>
 <div class="inventory-container">
   <h1 class="inventory-container__title" >Product Inventory</h1>
-
-  <div style="overflow-x: auto;margin-top: 20px;">
+  <div class="table-button-container">
+    <mat-form-field appearance="outline" class="table-button-container__search-bar">
+      <mat-label>Search Products</mat-label>
+      <input
+        matInput
+        [(ngModel)]="searchQuery"
+        (input)="applyFilters()"
+        placeholder="Search by name"
+      />
+    </mat-form-field>
     <div class="table-button-container">
-      <mat-form-field appearance="outline" class="table-button-container__search-bar">
-        <mat-label>Search Products</mat-label>
-        <input
-          matInput
-          [(ngModel)]="searchQuery"
-          (input)="applyFilters()"
-          placeholder="Search by name"
-        />
-      </mat-form-field>
-      <div class="table-button-container">
-        <button mat-raised-button color="primary" class="table-button-container__table-button" (click)="exportTableToExcel()">
-          Export to CSV
-        </button>
-        <button mat-raised-button color="primary" class="table-button-container__table-button" (click)="openAddModal()">
-          Add Product
-        </button>
-        <button mat-raised-button color="primary" class="table-button-container__table-button" (click)="filterOpenState.set(!filterOpenState())">
-          {{ filterOpenState() ? 'Close Filters' : 'Open Filters' }}
-        </button>
-      </div>
-
-
+      <button mat-raised-button color="primary" class="table-button-container__table-button" (click)="exportTableToExcel()">
+        Export to CSV
+      </button>
+      <button *appHasPermission="'AddProducts'" mat-raised-button color="primary" class="table-button-container__table-button" (click)="openAddModal()">
+        Add Product
+      </button>
+      <button mat-raised-button color="primary" class="table-button-container__table-button" (click)="filterOpenState.set(!filterOpenState())">
+        {{ filterOpenState() ? 'Close Filters' : 'Open Filters' }}
+      </button>
     </div>
-    <div class="filter-container"  [ngClass]="{ 'open': filterOpenState() }" >
 
-      <mat-form-field appearance="outline" class="filter-item">
-        <mat-label>Category</mat-label>
-        <mat-select
-          [(ngModel)]="categoryFilter"
-          (selectionChange)="applyFilters()"
-        >
-          <mat-option value="">All Categories</mat-option>
-          <mat-option *ngFor="let category of categories" [value]="category">
-            {{ category }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
 
-      <mat-form-field appearance="outline" class="filter-item">
-        <mat-label>Stock Level</mat-label>
-        <mat-select [(ngModel)]="stockFilter" (selectionChange)="applyFilters()">
-          <mat-option value="all">All Stock</mat-option>
-          <mat-option value="low">Low Stock</mat-option>
-          <mat-option value="high">Sufficient Stock</mat-option>
-        </mat-select>
-      </mat-form-field>
+  </div>
+  <div class="filter-container"  [ngClass]="{ 'open': filterOpenState() }" >
 
-      <mat-form-field appearance="outline" class="filter-item">
-        <mat-label>Expiry Status</mat-label>
-        <mat-select [(ngModel)]="expiryFilter" (selectionChange)="applyFilters()">
-          <mat-option value="all">All Products</mat-option>
-          <mat-option value="approaching">Approaching Expiry</mat-option>
-          <mat-option value="expired">Expired</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <mat-form-field appearance="outline" class="filter-item">
+      <mat-label>Category</mat-label>
+      <mat-select
+        [(ngModel)]="categoryFilter"
+        (selectionChange)="applyFilters()"
+      >
+        <mat-option value="">All Categories</mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category">
+          {{ category }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-      <div class="filter-item">
-        <mat-label>Price Range</mat-label>
-        <mat-slider
-          min="{{ minPrice }}"
-          max="{{ maxPrice }}"
-          (input)="applyFilters()"
-        >
-          <input [(ngModel)]="priceRange.min" matSliderStartThumb />
-          <input [(ngModel)]="priceRange.max" matSliderEndThumb />
-        </mat-slider>
-        <div class="range-values">
-          <span>Min: ${{ priceRange.min }}</span>
-          <span>Max: ${{ priceRange.max }}</span>
-        </div>
+    <mat-form-field appearance="outline" class="filter-item">
+      <mat-label>Stock Level</mat-label>
+      <mat-select [(ngModel)]="stockFilter" (selectionChange)="applyFilters()">
+        <mat-option value="all">All Stock</mat-option>
+        <mat-option value="low">Low Stock</mat-option>
+        <mat-option value="high">Sufficient Stock</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-item">
+      <mat-label>Expiry Status</mat-label>
+      <mat-select [(ngModel)]="expiryFilter" (selectionChange)="applyFilters()">
+        <mat-option value="all">All Products</mat-option>
+        <mat-option value="approaching">Approaching Expiry</mat-option>
+        <mat-option value="expired">Expired</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="filter-item">
+      <mat-label>Price Range</mat-label>
+      <mat-slider
+        min="{{ minPrice }}"
+        max="{{ maxPrice }}"
+        (input)="applyFilters()"
+      >
+        <input [(ngModel)]="priceRange.min" matSliderStartThumb />
+        <input [(ngModel)]="priceRange.max" matSliderEndThumb />
+      </mat-slider>
+      <div class="range-values">
+        <span>Min: ${{ priceRange.min }}</span>
+        <span>Max: ${{ priceRange.max }}</span>
       </div>
     </div>
-    <app-generic-table
-    [data]="dataSource.filteredData"
-    [columns]="columns"
-    [actions]="true"
-    (actionClick)="handleAction($event)"
-  ></app-generic-table>
+  </div>
+  <div style="overflow-x: auto;margin-top: 20px;">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
@@ -133,15 +118,15 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #actionMenu="matMenu">
-            <button mat-menu-item (click)="deleteProduct(product)">
+            <button *appHasPermission="'DeleteProducts'" mat-menu-item (click)="deleteProduct(product)">
               <mat-icon>delete</mat-icon>
               <span>Delete</span>
             </button>
             <button mat-menu-item (click)="goToDetail(product)">
               <mat-icon>info</mat-icon>
-              <span>Details</span>
+              <span>View</span>
             </button>
-            <button mat-menu-item (click)="openUpdateModal(product)">
+            <button *appHasPermission="'EditProducts'" mat-menu-item (click)="openUpdateModal(product)">
               <mat-icon>edit</mat-icon>
               <span>Update</span>
             </button>

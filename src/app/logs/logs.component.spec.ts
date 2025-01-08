@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GenericTableComponent } from './generic-table.component';
+import { LogsComponent } from './logs.component';
 
-describe('GenericTableComponent', () => {
-  let component: GenericTableComponent;
-  let fixture: ComponentFixture<GenericTableComponent>;
+describe('LogsComponent', () => {
+  let component: LogsComponent;
+  let fixture: ComponentFixture<LogsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GenericTableComponent]
+      imports: [LogsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GenericTableComponent);
+    fixture = TestBed.createComponent(LogsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

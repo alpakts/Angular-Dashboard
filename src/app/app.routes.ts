@@ -2,8 +2,9 @@ import { Routes } from '@angular/router';
 import { provideRouter } from '@angular/router';
 import { LayoutComponent } from './core/layout/layout.component';
 import { LoginComponent } from './auth/login/login.component';
-import { roleGuard } from './auth/guards/role.guard';
+import { RoleGuard } from './auth/guards/role.guard';
 import { Role } from './auth/enums/role-enum';
+import { Permissions } from './auth/services/permissions';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -11,8 +12,8 @@ export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [roleGuard],
-    data: { role: Role.Staff },
+    canActivate: [RoleGuard],
+    data: { role: Permissions.ViewDashboard },
     children: [
       {
         path: '',
@@ -20,9 +21,9 @@ export const routes: Routes = [
           import('./dashboard/dashboard.component').then(
             (m) => m.DashboardComponent
           ),
-        canActivate: [roleGuard],
+        canActivate: [RoleGuard],
 
-        data: { role: Role.Staff },
+        data: { role: Permissions.ViewDashboard },
       },
       {
         path: 'products',
@@ -30,16 +31,23 @@ export const routes: Routes = [
           import(
             './products/product-inventory/product-inventory.component'
           ).then((m) => m.ProductInventoryComponent),
-        canActivate: [roleGuard],
+        canActivate: [RoleGuard],
 
-        data: { role: Role.Manager },
+        data: { role: Permissions.ViewProducts },
       },
       {
         path: 'users',
         loadComponent: () =>
           import('./users/users.component').then((m) => m.UsersComponent),
-        data: { role: Role.Admin },
-        canActivate: [roleGuard],
+        data: { role: Permissions.ViewUsers },
+        canActivate: [RoleGuard],
+      },
+      {
+        path: 'logs',
+        loadComponent: () =>
+          import('./logs/logs.component').then((m) => m.LogsComponent),
+        data: { role: Permissions.ViewLogs },
+        canActivate: [RoleGuard],
       },
       {
         path: 'products/:id',
@@ -47,9 +55,9 @@ export const routes: Routes = [
           import('./products/product-detail/product-detail.component').then(
             (m) => m.ProductDetailComponent
           ),
-        canActivate: [roleGuard],
+        canActivate: [RoleGuard],
 
-        data: { role: Role.Staff },
+        data: { role: Permissions.ViewProducts },
       },
     ],
   },

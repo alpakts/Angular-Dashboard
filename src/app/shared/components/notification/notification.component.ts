@@ -5,7 +5,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge';
 import { Notification } from '../../models/notification-model';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { Observable } from 'rxjs';
+import { NotificationState } from '../../../core/states/notification.state';
 
 @Component({
   selector: 'app-notification',
@@ -15,9 +17,14 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./notification.component.scss'],
 })
 export class NotificationComponent {
-  @Input() notifications: Notification[] = [];
+  @Input() notifications: Observable<Notification[]> = new Observable<Notification[]>();
 
+  constructor(private notificationService: NotificationState, private router: Router) {}
   clearNotifications(): void {
-    this.notifications = [];
+    this.notificationService.clearNotifications();
+  }
+  handeNotificationClick(productId:number): void {
+    this.notificationService.clearNotification(productId);
+    this.router.navigate(['/products', productId]);
   }
 }

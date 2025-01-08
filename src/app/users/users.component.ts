@@ -8,11 +8,12 @@ import { User } from '../auth/models/user-model';
 import { AuthService } from '../auth/services/auth.service';
 import { UpdateUserFormComponent } from './components/update-user-form/update-user-form.component';
 import { GenericModalComponent } from '../shared/components/generic-modal/generic-modal.component';
+import { HasPermissionDirective } from '../auth/directives/has-permission.directive';
 
 @Component({
   selector: 'app-user-management',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, MatDialogModule],
+  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, MatDialogModule,HasPermissionDirective],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
 })
@@ -33,7 +34,6 @@ export class UsersComponent implements OnInit {
 
   openAddUserModal(): void {
     const newUser: User = {
-      id: 0,
       username: '',
       role: 'Staff',
       password: '',
@@ -52,13 +52,13 @@ export class UsersComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      debugger;
       if (result) {
         this.authService.register(result).subscribe(() => this.loadUsers());
       }
     });
   }
   openUpdateUserModal(user:User): void {
+    user.password = '';
     const dialogRef = this.dialog.open(GenericModalComponent, {
       width: '500px',
       data: {

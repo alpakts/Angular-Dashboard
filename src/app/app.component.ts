@@ -10,6 +10,7 @@ import { IndexedDbService } from './shared/services/indexed-db.service';
 })
 export class AppComponent {
   title = 'fuel-station-stock-manager';
+  isDarkMode = false;
   constructor(private indexedDbService: IndexedDbService) {}
 
   ngOnInit() {

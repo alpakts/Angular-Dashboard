@@ -4,4 +4,5 @@ export interface Log {
   message: string;
   username: string;
   timestamp: Date;
+  details: string;
 }

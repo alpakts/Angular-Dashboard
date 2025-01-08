@@ -24,7 +24,7 @@ export class GenericModalComponent implements OnInit {
   @ViewChild('contentContainer', { read: ViewContainerRef, static: true })
   contentContainer!: ViewContainerRef;
 
-  private componentRef!: ComponentRef<any>; // To store the dynamically created component reference
+  private componentRef!: ComponentRef<any>;
 
   constructor(
     public dialogRef: MatDialogRef<GenericModalComponent>,
@@ -51,7 +51,19 @@ export class GenericModalComponent implements OnInit {
   }
 
   onSave(): void {
-    if (this.componentRef && typeof this.componentRef.instance['getUpdatedData'] === 'function') {
+    if (
+      this.componentRef &&
+      typeof this.componentRef.instance['getUpdatedData'] === 'function' &&
+      typeof this.componentRef.instance['isFormValid'] === 'function'
+    ) {
+
+      if (!this.componentRef.instance['isFormValid']()) {
+
+        console.error('Form geçerli değil!');
+        return;
+      }
+
+
       const updatedData = this.componentRef.instance['getUpdatedData']();
       this.dialogRef.close(updatedData);
     } else {

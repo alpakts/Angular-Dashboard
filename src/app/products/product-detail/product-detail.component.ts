@@ -43,6 +43,14 @@ export class ProductDetailComponent implements OnInit {
       }
     });
   }
+  ngOnChanges(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.productService.getProductById(id).subscribe((product: Product | undefined) => {
+      if (product) {
+        this.product = product;
+      }
+    });
+  }
 
   openStockAdjustmentDialog(): void {
     const dialogRef = this.dialog.open(StockAdjustmentDialogComponent, {

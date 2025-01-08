@@ -29,10 +29,37 @@ export class UpdateUserFormComponent {
     this.userForm = this.fb.group({
       username: [this.user?.username || '', Validators.required],
       role: [this.user?.role || 'Staff', Validators.required],
-      password: [this.user?.password || '', Validators.required],
+      password: [
+        this.user?.password || '',
+        [
+          Validators.required,
+          Validators.pattern(/(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])/),
+          Validators.minLength(8),
+        ],
+      ],
     });
   }
 
+  get passwordErrors(): string[] {
+    const passwordControl = this.userForm.get('password');
+    if (!passwordControl || !passwordControl.errors) return [];
+
+    const errors: string[] = [];
+    if (passwordControl.hasError('required')) {
+      errors.push('Password is required.');
+    }
+    if (passwordControl.hasError('minlength')) {
+      errors.push('Password must be at least 8 characters long.');
+    }
+    if (passwordControl.hasError('pattern')) {
+      errors.push('Password must include at least one uppercase letter, one lowercase letter, and one special character.');
+    }
+    return errors;
+  }
+  isFormValid(): boolean {
+    this.userForm.markAllAsTouched();
+    return this.userForm.valid;
+  }
   getUpdatedData(): User {
     return { ...this.user, ...this.userForm.value };
   }

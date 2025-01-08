@@ -1,5 +1,5 @@
 <form [formGroup]="userForm">
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="outline">
     <mat-label>Username</mat-label>
     <input matInput formControlName="username" />
     <mat-error *ngIf="userForm.get('username')?.hasError('required')">
@@ -7,7 +7,7 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="outline">
     <mat-label>Role</mat-label>
     <mat-select formControlName="role">
       <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
@@ -17,11 +17,18 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="outline">
     <mat-label>Password</mat-label>
-    <input matInput type="password" formControlName="password" />
-    <mat-error *ngIf="userForm.get('password')?.hasError('required')">
-      Password is required
+    <input
+      matInput
+      type="password"
+      formControlName="password"
+      placeholder="Enter your password"
+    />
+    <mat-error *ngIf="passwordErrors.length > 0">
+      <ul>
+        <li *ngFor="let error of passwordErrors">{{ error }}</li>
+      </ul>
     </mat-error>
   </mat-form-field>
 </form>

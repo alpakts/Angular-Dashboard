@@ -4,11 +4,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { ChartComponent } from '../shared/components/chart/chart.component';
 import { DashboardService } from './services/dashboard.service';
+import { HasPermissionDirective } from '../auth/directives/has-permission.directive';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, ChartComponent],
+  imports: [CommonModule, MatCardModule, MatListModule, ChartComponent, HasPermissionDirective],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
@@ -66,9 +67,8 @@ export class DashboardComponent implements OnInit {
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          scales: {
-            y: { beginAtZero: true },
-          },
+          aspectRatio: 16 / 9,
+
         },
       };
     });

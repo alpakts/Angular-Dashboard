@@ -1,7 +1,6 @@
 <div class="dashboard">
   <h1>Dashboard</h1>
 
-  <!-- Metrics -->
   <div class="metrics">
     <mat-card class="metric-card" *ngIf="lowStockCount > 0">
       <mat-card-title>Low Stock Items</mat-card-title>
@@ -11,7 +10,7 @@
       <mat-card-title>Expired Products</mat-card-title>
       <mat-card-content>{{ expiredProductsCount }}</mat-card-content>
     </mat-card>
-    <mat-card class="metric-card">
+    <mat-card *appHasPermission="'ViewSales'" class="metric-card">
       <mat-card-title>Daily Sales</mat-card-title>
       <mat-card-content>{{ dailySales | currency }}</mat-card-content>
     </mat-card>
@@ -37,7 +36,7 @@
     </div>
   </div>
 
-  <div class="sales-trends">
+  <div *appHasPermission="'ViewSales'" class="sales-trends">
     <h2>Sales Trends</h2>
     <div class="chart-container">
       <app-chart *ngIf="salesChartConfig" [chartConfig]="salesChartConfig"></app-chart>

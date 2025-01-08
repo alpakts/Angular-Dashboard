@@ -43,6 +43,7 @@
     justify-content: space-between;
     gap: 10px;
     margin-top: 20px;
+    overflow: hidden;
     @media screen and (max-width: 768px) {
       flex-direction: column;
       gap: 10px;
@@ -67,22 +68,33 @@
   table {
     width: 100%;
     margin-top: 20px;
-    user-select: none;
-    border-radius: 1rem;
-    overflow: auto;
-    border: 1px solid var(--mat-sys-primary-container);
     padding: 5px;
+    border-collapse: collapse;
+    background-color: var(--mat-sys-surface);
+    border-radius: 1rem;
+    user-select: none;
+    overflow: hidden;
 
     th {
       user-select: none;
       background-color: var(--mat-sys-primary-container);
       color: var(--mat-sys-on-primary-container);
       font-weight: bold;
+      text-align: left;
+      padding: 10px;
     }
 
     td {
       padding: 10px;
       color: var(--mat-sys-on-surface);
+    }
+
+    tr:nth-child(even) {
+      background-color: var(--mat-sys-surface-container);
+    }
+
+    tr:hover {
+      background-color: var(--mat-sys-surface-container-highest);
     }
   }
 

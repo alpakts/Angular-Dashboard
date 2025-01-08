@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+@use '@angular/material' as mat;
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
 
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
@@ -54,4 +54,20 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+.mat-dark-theme {
+  color-scheme:dark;
+  @include mat.theme((
+    color: mat.$violet-palette,
+    typography: Roboto,
+    density: 0
+  ));
+}
+.mat-light-theme {
+  color-scheme:light;
+  @include mat.theme((
+    color: mat.$violet-palette,
+    typography: Roboto,
+    density: 0
+  ));
 }

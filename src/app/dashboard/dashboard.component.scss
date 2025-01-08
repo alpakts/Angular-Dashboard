@@ -1,14 +1,39 @@
 .dashboard {
   padding: 20px;
 
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--mat-sys-primary);
+  }
+
   .metrics {
     display: flex;
+    justify-content: space-between;
     gap: 20px;
     margin-bottom: 30px;
 
     .metric-card {
       flex: 1;
       text-align: center;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background-color: var(--mat-sys-surface);
+      color: var(--mat-sys-primary);
+
+      mat-card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      mat-card-content {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
     }
   }
 
@@ -21,105 +46,108 @@
     .low-stock-list,
     .expired-products-list {
       flex: 1;
-      background: var(--mat-sys-surface);
       padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background-color: var(--mat-sys-surface);
 
       h2 {
-        margin-bottom: 10px;
         font-size: 1.5rem;
-        border-bottom: 2px solid var(--mat-primary);
-        padding-bottom: 5px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: var(--mat-sys-primary);
       }
 
       mat-list {
+        max-height: 200px;
+        overflow-y: auto;
+
         mat-list-item {
-          font-size: 1rem;
+          padding: 10px;
+          border-bottom: 1px solid var(--mat-sys-outline);
+          display: flex;
+          justify-content: space-between;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          span {
+            font-size: 1rem;
+            color: var(--mat-sys-on-surface);
+          }
         }
       }
     }
   }
 
   .sales-trends {
+    margin-top: 20px;
+
     h2 {
-      margin-bottom: 20px;
-      text-align: center;
       font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: var(--mat-sys-primary);
     }
 
     .chart-container {
       width: 100%;
-      max-width: 100%; // Taşmayı önlemek için
-      overflow: hidden;
-      margin: 0 auto;
-
-      app-chart {
-        display: block;
-        max-width: 100%;
-        height: auto;
-      }
+      position: relative;
+      background-color: var(--mat-sys-surface);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 
-
-  @media (max-width: 768px) {
+  @media screen and (max-width: 768px) {
     .metrics {
       flex-direction: column;
-      gap: 10px;
-
-      .metric-card {
-        margin-bottom: 10px;
-      }
+      gap: 15px;
     }
 
     .product-lists {
       flex-direction: column;
-      gap: 10px;
+      gap: 15px;
 
-      .low-stock-list,
-      .expired-products-list {
-        flex: none;
-        margin-bottom: 10px;
-      }
-    }
-
-    .sales-trends {
-      h2 {
-        font-size: 1.3rem;
-      }
-    }
-  }
-
-  @media (max-width: 480px) {
-    .metrics {
-      .metric-card {
-        font-size: 0.9rem;
-        mat-card-title {
-          font-size: 1.2rem;
-        }
-        mat-card-content {
-          font-size: 1rem;
-        }
-      }
-    }
-
-    .product-lists {
       .low-stock-list,
       .expired-products-list {
         h2 {
-          font-size: 1.3rem;
-        }
-        mat-list-item {
-          font-size: 0.9rem;
+          font-size: 1.2rem;
         }
       }
     }
 
-    .sales-trends {
-      h2 {
-        font-size: 1.1rem;
+  }
+
+  @media screen and (max-width: 480px) {
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    .metrics .metric-card {
+      mat-card-title {
+        font-size: 1rem;
       }
+
+      mat-card-content {
+        font-size: 1.2rem;
+      }
+    }
+
+    .product-lists .low-stock-list,
+    .product-lists .expired-products-list {
+      h2 {
+        font-size: 1rem;
+      }
+    }
+
+    .sales-trends .chart-container {
+      padding: 10px;
     }
   }
 }

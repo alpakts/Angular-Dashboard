@@ -4,6 +4,7 @@ import { tap, catchError, switchMap } from 'rxjs/operators';
 import { IndexedDbService } from '../../shared/services/indexed-db.service';
 import { User } from '../models/user-model';
 import { Role } from '../enums/role-enum';
+import { Permissions, RolePermissions } from './permissions';
 
 @Injectable({
   providedIn: 'root',
@@ -54,7 +55,7 @@ export class AuthService {
   }
   updateUser(updatedUser: User): Observable<number> {
     return from(
-      this.indexedDbService.users.update(updatedUser.id, updatedUser)
+      this.indexedDbService.users.update(updatedUser.id!, updatedUser)
     ).pipe(
       tap(() => console.log('User updated successfully')),
       catchError((error) =>
@@ -80,5 +81,10 @@ export class AuthService {
       tap(() => console.log(`User with ID ${userId} deleted successfully`)),
       catchError((error) => throwError(() => new Error(`Failed to delete user: ${error}`)))
     );
+  }
+  hasPermission(permission:string): boolean {
+    const user = this.getCurrentUser();
+    if (!user || !user.role) return false;
+    return RolePermissions[user.role]?.includes(permission) || false;
   }
 }

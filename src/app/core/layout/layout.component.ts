@@ -5,9 +5,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { ProductService } from '../../products/services/product.service';
 import { NotificationComponent } from '../../shared/components/notification/notification.component';
 import { Notification } from '../../shared/models/notification-model';
+import { Observable } from 'rxjs';
+import { NotificationState } from '../states/notification.state';
+import { ProductService } from '../../products/services/product.service';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-layout',
@@ -20,25 +23,23 @@ import { Notification } from '../../shared/models/notification-model';
     RouterModule,
     SidebarComponent,
     NotificationComponent,
+    MatSlideToggleModule
   ],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent {
-  notifications: Notification[] = [];
+  notifications$: Observable<Notification[]>;
+  isDarkMode = false;
 
-  constructor(private productService:ProductService) {}
-  ngOnInit(): void {
-    this.updateNotifications();
-    setInterval(() => this.updateNotifications(), 10000);
+  constructor(private notificationService: NotificationState,private productService: ProductService) {
+    this.productService.getLowStockProducts().subscribe();
+    this.notifications$ = this.notificationService.notifications$;
   }
-
-  updateNotifications(): void {
-    this.productService.getLowStockProducts().subscribe((lowStockProducts) => {
-      this.notifications = lowStockProducts.map((product) => ({
-        text: `${product.name} has low stock (${product.stock} left, reorder point: ${product.reorderPoint}).`,
-        productId: product.id,
-      }));
-    });
+  toggleTheme() {
+    this.isDarkMode = !this.isDarkMode;
+    const htmlElement = document.documentElement;
+    htmlElement.classList.toggle('mat-dark-theme', this.isDarkMode);
+    htmlElement.classList.toggle('mat-light-theme', !this.isDarkMode);
   }
 }
