@@ -1,4 +1,3 @@
-
 # **Angular Product Management Application**
 
 This project is an Angular-based application that provides features like product management, user management, and shift management. Below is the list of implemented features, project structure, and technical details.
@@ -128,7 +127,7 @@ src/
    ```
    http://localhost:4200
    ```
-4. **User Credentials Can be Found at src/app/shared/services/initial-user-data.json**
+4. User Credentials Can be Found at **src/app/shared/services/initial-user-data.json**
 
 ---
 
