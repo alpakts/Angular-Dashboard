@@ -128,6 +128,7 @@ src/
    ```
    http://localhost:4200
    ```
+4. **User Credentials Can be Found at src/app/shared/services/initial-user-data.json
 
 ---
 
