@@ -30,6 +30,8 @@ import { UpdateProductFormComponent } from '../components/update-form/update-for
 import { Product } from '../models/product-model';
 import * as XLSX from 'xlsx';
 import { HasPermissionDirective } from '../../auth/directives/has-permission.directive';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ToastService } from '../../shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-product-inventory',
@@ -47,7 +49,8 @@ import { HasPermissionDirective } from '../../auth/directives/has-permission.dir
     MatExpansionModule,
     MatMenuModule,
     DynamicMessagePipe,
-    HasPermissionDirective
+    HasPermissionDirective,
+    MatSnackBarModule
 ],
   templateUrl: './product-inventory.component.html',
   styleUrls: ['./product-inventory.component.scss'],
@@ -55,6 +58,7 @@ import { HasPermissionDirective } from '../../auth/directives/has-permission.dir
 export class ProductInventoryComponent implements OnInit {
   @ViewChild('lowStockTemplate', { static: true }) lowStockTemplate!: TemplateRef<any>;
   displayedColumns: string[] = [
+    'id',
     'name',
     'category',
     'price',
@@ -80,7 +84,8 @@ export class ProductInventoryComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -171,7 +176,10 @@ export class ProductInventoryComponent implements OnInit {
       if (result === 'confirm') {
         this.productService
           .deleteProduct(product.id)
-          .subscribe(() => this.refreshData());
+          .subscribe(() => {
+            this.refreshData();
+            this.toastService.showSuccess('Product deleted successfully');
+          });
       }
     });
   }
@@ -194,6 +202,7 @@ export class ProductInventoryComponent implements OnInit {
         console.log('Updated Product:', updatedProduct);
         this.productService.updateProduct(updatedProduct.id, updatedProduct).subscribe(() => {
           this.refreshData();
+          this.toastService.showSuccess('Product updated successfully');
         });
       }
     });
@@ -223,8 +232,12 @@ export class ProductInventoryComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      debugger;
       if (result) {
-        this.productService.addProduct(result).subscribe(() => this.refreshData());
+        this.productService.addProduct(result).subscribe(() => {
+          this.refreshData();
+          this.toastService.showSuccess('Product added successfully');
+        });
       }
     });
   }
@@ -275,5 +288,6 @@ export class ProductInventoryComponent implements OnInit {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Product Inventory');
 
     XLSX.writeFile(workbook, 'product_inventory.xlsx');
+    this.toastService.showSuccess('Exported to Excel successfully');
   }
 }

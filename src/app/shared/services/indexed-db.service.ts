@@ -5,6 +5,7 @@ import { Product } from '../../products/models/product-model';
 import { User } from '../../auth/models/user-model';
 import INITIAL_USERS from './initial-user-data.json';
 import { Log } from '../models/log-model';
+import { Shift } from '../../shift/models/shift-model';
 @Injectable({
   providedIn: 'root',
 })
@@ -12,6 +13,7 @@ export class IndexedDbService extends Dexie {
   products!: Table<Product, number>;
   users!: Dexie.Table<User, number>;
   activities!: Dexie.Table<Log, number>;
+  shifts!: Dexie.Table<Shift, number>;
 
   constructor() {
     super('MyAppDatabase');
@@ -20,6 +22,7 @@ export class IndexedDbService extends Dexie {
         '++id, name, category, price, stock, reorderPoint,expiryDate,stockAdjustments',
       activities: '++id, username, action, timestamp, details',
       users: '++id,username,password,role',
+      shifts: '++id, username, role, date, startTime, endTime',
     });
   }
 

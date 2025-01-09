@@ -13,6 +13,7 @@ export enum Permissions {
   ViewLogs = 'ViewLogs',
   ClearLogs = 'ClearLogs',
   ViewSales = 'ViewSales',
+  ViewShifts = 'ViewShifts',
 }
 
 export const RolePermissions: { [key: string]: string[] } = {
@@ -28,7 +29,8 @@ export const RolePermissions: { [key: string]: string[] } = {
     Permissions.ViewLogs,
     Permissions.ClearLogs,
     Permissions.ViewDashboard,
-    Permissions.ViewSales
+    Permissions.ViewSales,
+    Permissions.ViewShifts
   ],
   "Manager": [
     Permissions.ViewProducts,

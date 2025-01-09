@@ -1,0 +1,49 @@
+<div class="shift-management">
+  <h1 class="shift-management__title" >Product Inventory</h1>
+  <div class="shift-controls">
+   <div style="gap: 10px; display: flex;">
+    <mat-form-field appearance="outline" >
+      <mat-label>From</mat-label>
+      <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate" (dateChange)="updateWeekDates()" />
+      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+      <mat-datepicker #startPicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>To</mat-label>
+      <input matInput [matDatepicker]="endPicker" [(ngModel)]="endDate" (dateChange)="updateWeekDates()" />
+      <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+      <mat-datepicker #endPicker></mat-datepicker>
+    </mat-form-field>
+   </div>
+  </div>
+
+  <div class="shift-table">
+    <button mat-raised-button color="primary" class="shift-controls__table-button" (click)="exportTableToExcel()">
+      Export to CSV
+    </button>
+    <table mat-table [dataSource]="shiftTable" class="mat-elevation-z8">
+      <ng-container  matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell class="shift-table__name" *matCellDef="let row">{{ row.username }}</td>
+      </ng-container>
+      <ng-container *ngFor="let day of weekDates" [matColumnDef]="day">
+        <th mat-header-cell *matHeaderCellDef>{{ day }}</th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+          (click)="openEditShiftModal(row.username, day)"
+          class="clickable-cell"
+        >
+          <div *ngIf="getShiftForDay(row, day)">
+            {{ getShiftForDay(row, day)?.startTime }} - {{ getShiftForDay(row, day)?.endTime }}
+            <br />
+            <small>{{ getShiftForDay(row, day)?.role }}</small>
+          </div>
+          <div *ngIf="!getShiftForDay(row, day)">Day Off</div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

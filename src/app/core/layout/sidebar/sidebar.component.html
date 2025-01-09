@@ -3,6 +3,7 @@
     <li *appHasPermission="'ViewDashboard's"><a routerLink="/" routerLinkActive="active"  [routerLinkActiveOptions]="{ exact: true }">Dashboard</a></li>
     <li *appHasPermission="'ViewProducts'"><a routerLink="/products" routerLinkActive="active">Products</a></li>
     <li *appHasPermission="'ViewUsers'" ><a routerLink="/users" routerLinkActive="active">Users</a></li>
+    <li *appHasPermission="'ViewShifts'" ><a routerLink="/shifts" routerLinkActive="active">Shifts</a></li>
     <li *appHasPermission="'ViewLogs'" ><a routerLink="/logs" routerLinkActive="active">Logs</a></li>
     <li><a routerLink="/login" (click)="logout()">Logout</a></li>
   </ul>

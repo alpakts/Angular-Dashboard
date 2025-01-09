@@ -1,50 +1,36 @@
 .user-management {
   padding: 20px;
-  .table-button-container{
-    float: inline-end;
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 20px;
-  }
   h1 {
     font-size: 1.8rem;
     font-weight: bold;
     margin-bottom: 20px;
     color: var(--mat-sys-primary);
   }
-
-  table {
-    width: 100%;
-    overflow: auto;
+  .table-button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 10px;
     margin-top: 20px;
-    padding: 5px;
-    border-collapse: collapse;
-    background-color: var(--mat-sys-surface);
-    border-radius: 8px;
-    border: 1px solid var(--mat-sys-primary);
     overflow: hidden;
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      gap: 10px;
+    }
 
-    th {
-      user-select: none;
+    &__table-button {
+      padding: 10px 20px;
       background-color: var(--mat-sys-primary-container);
       color: var(--mat-sys-on-primary-container);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
       font-weight: bold;
-      text-align: left;
-      padding: 10px;
-    }
+      transition: .3s all;
 
-    td {
-      padding: 10px;
-      color: var(--mat-sys-on-surface);
-    }
-
-    tr:nth-child(even) {
-      background-color: var(--mat-sys-surface-container);
-    }
-
-    tr:hover {
-      background-color: var(--mat-sys-surface-container-highest);
+      &:hover {
+        background-color: var(--mat-sys-primary-container-variant);
+      }
     }
   }
 }

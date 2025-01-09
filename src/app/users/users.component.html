@@ -1,32 +1,12 @@
 <div class="user-management">
   <h1>User Management</h1>
   <div class="table-button-container">
-    <button *appHasPermission="'AddUsers'" mat-raised-button color="primary" (click)="openAddUserModal()">Add User</button>
+    <button *appHasPermission="'AddUsers'" class="table-button-container__table-button" mat-raised-button color="primary" (click)="openAddUserModal()">Add User</button>
   </div>
-  <table mat-table [dataSource]="users" class="mat-elevation-z8">
-    <ng-container matColumnDef="username">
-      <th mat-header-cell *matHeaderCellDef>Username</th>
-      <td mat-cell *matCellDef="let user">{{ user.username }}</td>
-    </ng-container>
+  <app-dynamic-table
+  [dataSource]="users.data"
+  [columns]="columns"
+  [actions]="actions"
+></app-dynamic-table>
 
-    <ng-container matColumnDef="role">
-      <th mat-header-cell *matHeaderCellDef>Role</th>
-      <td mat-cell *matCellDef="let user">{{ user.role }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>Actions</th>
-      <td mat-cell *matCellDef="let user">
-        <button *appHasPermission="'EditUsers'" mat-icon-button (click)="openUpdateUserModal(user)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button *appHasPermission="'DeleteUsers'" mat-icon-button (click)="deleteUser(user.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="['username', 'role', 'actions']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['username', 'role', 'actions']"></tr>
-  </table>
 </div>

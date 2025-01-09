@@ -19,8 +19,8 @@
       flex: 1;
       text-align: center;
       padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: var(--mat-mdc-shape-medium, 8px); // Material shape
+      box-shadow: var(--mat-elevation-level2, 0 2px 8px rgba(0, 0, 0, 0.1));
       background-color: var(--mat-sys-surface);
       color: var(--mat-sys-primary);
 
@@ -47,8 +47,8 @@
     .expired-products-list {
       flex: 1;
       padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: var(--mat-mdc-shape-medium, 8px);
+      box-shadow: var(--mat-elevation-level2, 0 2px 8px rgba(0, 0, 0, 0.1));
       background-color: var(--mat-sys-surface);
 
       h2 {
@@ -95,8 +95,8 @@
       width: 100%;
       position: relative;
       background-color: var(--mat-sys-surface);
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: var(--mat-mdc-shape-medium, 8px);
+      box-shadow: var(--mat-elevation-level2, 0 2px 8px rgba(0, 0, 0, 0.1));
       padding: 20px;
       display: flex;
       align-items: center;
@@ -121,7 +121,6 @@
         }
       }
     }
-
   }
 
   @media screen and (max-width: 480px) {

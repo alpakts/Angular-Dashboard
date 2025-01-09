@@ -32,7 +32,6 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
-/* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
@@ -55,12 +54,52 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+.table-button-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+  overflow: hidden;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__table-button {
+    padding: 10px 20px;
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: .3s all;
+
+    &:hover {
+      background-color: var(--mat-sys-primary-container-variant);
+    }
+  }
+}
+.toast-success {
+  color: var(--mat-sys-color-on-success-container, white);
+  font-weight: bold;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.toast-error {
+  color: var(--mat-sys-color-on-error-container, white);
+  font-weight: bold;
+  padding: 16px;
+  border-radius: 8px;
+}
+
 .mat-dark-theme {
   color-scheme:dark;
   @include mat.theme((
     color: mat.$violet-palette,
     typography: Roboto,
-    density: 0
+    density: -3
   ));
 }
 .mat-light-theme {
@@ -68,6 +107,6 @@ table {
   @include mat.theme((
     color: mat.$violet-palette,
     typography: Roboto,
-    density: 0
+    density: -2
   ));
 }

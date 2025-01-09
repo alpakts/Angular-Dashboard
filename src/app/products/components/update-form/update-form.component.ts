@@ -42,6 +42,11 @@ export class UpdateProductFormComponent implements OnInit {
     };
   }
 
+  isFormValid(): boolean {
+    this.productForm.markAllAsTouched();
+    return this.productForm.valid;
+  }
+
   getUpdatedData(): any {
     if (this.productForm.valid) {
       return { ...this.product, ...this.productForm.value };

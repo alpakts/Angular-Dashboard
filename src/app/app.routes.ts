@@ -59,6 +59,16 @@ export const routes: Routes = [
 
         data: { role: Permissions.ViewProducts },
       },
+      {
+        path: 'shifts',
+        loadComponent: () =>
+          import('./shift/shift.component').then(
+            (m) => m.ShiftComponent
+          ),
+        canActivate: [RoleGuard],
+
+        data: { role: Permissions.ViewShifts },
+      },
     ],
   },
 

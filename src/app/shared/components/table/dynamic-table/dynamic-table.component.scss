@@ -1,0 +1,33 @@
+table {
+  width: 100%;
+  overflow: auto;
+  margin-top: 20px;
+  padding: 5px;
+  border-collapse: collapse;
+  background-color: var(--mat-sys-surface);
+  border-radius: 8px;
+  border: 1px solid var(--mat-sys-primary);
+  overflow: hidden;
+
+  th {
+    user-select: none;
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+    font-weight: bold;
+    text-align: left;
+    padding: 10px;
+  }
+
+  td {
+    padding: 10px;
+    color: var(--mat-sys-on-surface);
+  }
+
+  tr:nth-child(even) {
+    background-color: var(--mat-sys-surface-container);
+  }
+
+  tr:hover {
+    background-color: var(--mat-sys-surface-container-highest);
+  }
+}

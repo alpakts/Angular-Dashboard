@@ -30,16 +30,24 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 })
 export class LayoutComponent {
   notifications$: Observable<Notification[]>;
-  isDarkMode = false;
-
+  isDarkMode = localStorage.getItem('darkMode') === 'true';
+  htmlElement = document.documentElement;
   constructor(private notificationService: NotificationState,private productService: ProductService) {
     this.productService.getLowStockProducts().subscribe();
     this.notifications$ = this.notificationService.notifications$;
   }
   toggleTheme() {
     this.isDarkMode = !this.isDarkMode;
-    const htmlElement = document.documentElement;
-    htmlElement.classList.toggle('mat-dark-theme', this.isDarkMode);
-    htmlElement.classList.toggle('mat-light-theme', !this.isDarkMode);
+    this.htmlElement.classList.toggle('mat-dark-theme', this.isDarkMode);
+    this.htmlElement.classList.toggle('mat-light-theme', !this.isDarkMode);
+    localStorage.setItem('darkMode', this.isDarkMode.toString());
+  }
+
+  ngOnInit() {
+    if (this.isDarkMode) {
+      this.htmlElement.classList.add('mat-dark-theme');
+    } else {
+      this.htmlElement.classList.add('mat-light-theme');
+    }
   }
 }

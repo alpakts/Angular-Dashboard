@@ -8,11 +8,12 @@ import { FormsModule } from '@angular/forms';
 import { LogService } from './services/log.service';
 import { Log } from '../shared/models/log-model';
 import { HasPermissionDirective } from '../auth/directives/has-permission.directive';
+import { DynamicTableComponent } from "../shared/components/table/dynamic-table/dynamic-table.component";
 
 @Component({
   selector: 'app-log',
   standalone: true,
-  imports: [CommonModule, MatPaginatorModule, MatTableModule, MatInputModule, MatButtonModule, FormsModule, HasPermissionDirective],
+  imports: [CommonModule, MatPaginatorModule, MatTableModule, MatInputModule, MatButtonModule, FormsModule, HasPermissionDirective, DynamicTableComponent],
   templateUrl: './logs.component.html',
   styleUrls: ['./logs.component.scss'],
 })
@@ -25,6 +26,13 @@ export class LogsComponent implements OnInit {
   filterQuery: string = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  columns = [
+    { key: 'timestamp', label: 'Timestamp' },
+    { key: 'username', label: 'Username' },
+    { key: 'action', label: 'Action' },
+    { key: 'details', label: 'Details' },
+  ];
 
   constructor(private logService: LogService) {}
 

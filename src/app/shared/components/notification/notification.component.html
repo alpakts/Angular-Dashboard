@@ -9,7 +9,7 @@
   </button>
   <mat-menu #notificationMenu="matMenu">
     <ng-container *ngIf="(notifications | async)!.length > 0; else noNotifications">
-      <button mat-menu-item *ngFor="let notification of notifications | async" (click)="handeNotificationClick(notification.productId)" class="notification-link" >
+      <button mat-menu-item *ngFor="let notification of notifications | async"(click)="handeNotificationClick(notification.productId)" class="notification-link" >
           <mat-icon>warning</mat-icon> <span>{{ notification.text }}</span>
         </button>
       <button mat-menu-item (click)="clearNotifications()">

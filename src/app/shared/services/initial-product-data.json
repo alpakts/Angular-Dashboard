@@ -55,7 +55,7 @@
     "price": 25,
     "stock": 45,
     "reorderPoint": 20,
-    "expiryDate": "2025-10-30",
+    "expiryDate": "2024-10-30",
     "stockAdjustments": [
       { "date": "2025-01-06", "quantity": 10, "reason": "Restocking" }
     ]

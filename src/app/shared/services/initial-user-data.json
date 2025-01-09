@@ -1,10 +1,10 @@
 
 [
 
-  { "id": 1, "username": "admin", "password": "admin123", "role": "Admin" },
+  { "id": 1, "username": "admin", "password": "Aa123456!", "role": "Admin" },
 
-  { "id": 2, "username": "manager", "password": "manager123", "role": "Manager" },
+  { "id": 2, "username": "manager", "password": "Aa123456!", "role": "Manager" },
 
-  { "id": 3, "username": "staff", "password": "staff123", "role": "Staff" }
+  { "id": 3, "username": "staff", "password": "Aa123456!", "role": "Staff" }
 
 ]

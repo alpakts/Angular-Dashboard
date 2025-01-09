@@ -9,17 +9,34 @@ import { AuthService } from '../auth/services/auth.service';
 import { UpdateUserFormComponent } from './components/update-user-form/update-user-form.component';
 import { GenericModalComponent } from '../shared/components/generic-modal/generic-modal.component';
 import { HasPermissionDirective } from '../auth/directives/has-permission.directive';
+import { DynamicTableComponent } from '../shared/components/table/dynamic-table/dynamic-table.component';
 
 @Component({
   selector: 'app-user-management',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, MatDialogModule,HasPermissionDirective],
+  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, MatDialogModule,HasPermissionDirective,DynamicTableComponent],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent implements OnInit {
   users = new MatTableDataSource<User>([]);
-
+  columns = [
+    { key: 'id', label: 'Id' },
+    { key: 'username', label: 'Username' },
+    { key: 'role', label: 'Role' },
+  ];
+  actions = [
+    {
+      label: 'Update',
+      icon: 'edit',
+      callback: (user: User) => this.openUpdateUserModal(user),
+    },
+    {
+      label: 'Delete',
+      icon: 'delete',
+      callback: (user: User) => this.deleteUser(user.id!),
+    },
+  ];
   constructor(private authService: AuthService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
