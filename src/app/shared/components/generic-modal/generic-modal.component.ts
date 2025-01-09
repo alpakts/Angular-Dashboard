@@ -1,10 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, Input, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Input,
+  OnInit,
+  Type,
+  ViewChild,
+  ViewContainerRef,
+  ComponentRef,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ComponentRef } from '@angular/core';
 
 @Component({
   selector: 'app-generic-modal',
@@ -21,6 +29,7 @@ import { ComponentRef } from '@angular/core';
 })
 export class GenericModalComponent implements OnInit {
   @Input() title: string = '';
+
   @ViewChild('contentContainer', { read: ViewContainerRef, static: true })
   contentContainer!: ViewContainerRef;
 
@@ -28,22 +37,33 @@ export class GenericModalComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<GenericModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: {
+      title?: string;
+      contentComponent: Type<any>;
+      contentData?: any;
+      injector: any;
+    }
   ) {}
 
   ngOnInit(): void {
-    if (this.data.contentComponent) {
-      const component = this.data.contentComponent as Type<any>;
-      this.componentRef = this.contentContainer.createComponent(component, {
-        injector: this.data.injector,
-      });
+    this.title = this.data.title || this.title;
+    this.loadContentComponent();
+  }
 
-      if (this.data.contentData) {
-        Object.assign(this.componentRef.instance, this.data.contentData);
-      }
+  private loadContentComponent(): void {
+    if (!this.data.contentComponent) {
+      console.warn('No content component provided');
+      return;
     }
 
-    this.title = this.data.title || this.title;
+    const component = this.data.contentComponent;
+    this.componentRef = this.contentContainer.createComponent(component, {
+      injector: this.data.injector,
+    });
+
+    if (this.data.contentData) {
+      Object.assign(this.componentRef.instance, this.data.contentData);
+    }
   }
 
   onCancel(): void {
@@ -51,23 +71,28 @@ export class GenericModalComponent implements OnInit {
   }
 
   onSave(): void {
-    if (
-      this.componentRef &&
-      typeof this.componentRef.instance['getUpdatedData'] === 'function' &&
-      typeof this.componentRef.instance['isFormValid'] === 'function'
-    ) {
+    if (!this.componentRef) {
+      this.dialogRef.close(null);
+      return;
+    }
 
-      if (!this.componentRef.instance['isFormValid']()) {
+    const instance = this.componentRef.instance;
 
-        console.error('Form geçerli değil!');
-        return;
-      }
-
-
-      const updatedData = this.componentRef.instance['getUpdatedData']();
+    if (this.isComponentFormValid(instance)) {
+      const updatedData = this.getComponentUpdatedData(instance);
       this.dialogRef.close(updatedData);
     } else {
-      this.dialogRef.close(null);
+      console.error('Form is invalid!');
     }
+  }
+
+  private isComponentFormValid(instance: any): boolean {
+    return typeof instance['isFormValid'] === 'function' && instance['isFormValid']();
+  }
+
+  private getComponentUpdatedData(instance: any): any {
+    return typeof instance['getUpdatedData'] === 'function'
+      ? instance['getUpdatedData']()
+      : null;
   }
 }

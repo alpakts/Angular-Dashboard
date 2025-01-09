@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -17,7 +17,7 @@ import { NotificationState } from '../../../core/states/notification.state';
   styleUrls: ['./notification.component.scss'],
 })
 export class NotificationComponent {
-  @Input() notifications: Observable<Notification[]> = new Observable<Notification[]>();
+  @Input() notifications: Notification[] = [];
 
   constructor(private notificationService: NotificationState, private router: Router) {}
   clearNotifications(): void {

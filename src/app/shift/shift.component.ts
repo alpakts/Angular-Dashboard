@@ -114,7 +114,7 @@ export class ShiftComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: Shift | null) => {
       if (result) {
         if (existingShift) {
-          this.shiftService.UpdateShift(existingShift.id, result).subscribe(() => this.loadShifts());
+          this.shiftService.updateShift(existingShift.id, result).subscribe(() => this.loadShifts());
         } else {
           this.shiftService.addShift(result).subscribe(() => this.loadShifts());
         }

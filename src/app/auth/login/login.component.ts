@@ -24,27 +24,40 @@ export class LoginComponent {
   loginForm: FormGroup;
   loginError: string | null = null;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
-    this.loginForm = this.fb.group({
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.loginForm = this.createLoginForm();
+  }
+
+  private createLoginForm(): FormGroup {
+    return this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
-
-      this.authService.login(username, password).subscribe({
-        next: (user) => {
-          console.log('Login successful!', user);
-          this.router.navigate(['/']);
-        },
-        error: (err) => {
-          console.error('Login failed:', err.message);
-          this.loginError = 'Invalid username or password';
-        },
-      });
+  onSubmit(): void {
+    if (this.loginForm.invalid) {
+      return;
     }
+
+    const { username, password } = this.loginForm.value;
+    this.authService.login(username, password).subscribe({
+      next: () => this.handleLoginSuccess(),
+      error: (err) => this.handleLoginError(err),
+    });
+  }
+
+  private handleLoginSuccess(): void {
+    console.log('Login successful!');
+    this.router.navigate(['/']);
+  }
+
+  private handleLoginError(error: any): void {
+    console.error('Login failed:', error.message);
+    this.loginError = 'Invalid username or password';
   }
 }

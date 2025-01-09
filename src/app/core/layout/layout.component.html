@@ -1,27 +1,35 @@
-<mat-toolbar color="primary">
-  <button mat-icon-button (click)="sidenav.toggle()">
+<mat-toolbar color="primary" class="toolbar">
+  <!-- Menü Düğmesi -->
+  <button mat-icon-button (click)="sidenav.toggle()" aria-label="Toggle sidenav">
     <mat-icon>menu</mat-icon>
   </button>
 
-  <span>Fuel Station Manager</span>
+  <!-- Başlık -->
+  <span class="toolbar__title">Fuel Station Manager</span>
 
+  <!-- Spacer -->
   <span class="spacer"></span>
 
+  <!-- Bildirim Bileşeni -->
+  <app-notification [notifications]="notifications()"></app-notification>
 
-  <app-notification [notifications]="notifications$"></app-notification>
+  <!-- Tema Değiştirme Düğmesi -->
   <div class="theme-toggle">
     <button mat-icon-button (click)="toggleTheme()" aria-label="Toggle theme">
-      <mat-icon >{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
+      <mat-icon>{{ isDarkMode() ? 'dark_mode' : 'light_mode' }}</mat-icon>
     </button>
   </div>
 </mat-toolbar>
+
+<!-- Layout -->
 <mat-sidenav-container class="layout">
-  <mat-sidenav #sidenav mode="side" class="sidebar">
+  <!-- Yan Menü -->
+  <mat-sidenav #sidenav mode="side" class="sidebar" aria-label="Side navigation">
     <app-sidebar></app-sidebar>
   </mat-sidenav>
 
+  <!-- Ana İçerik -->
   <mat-sidenav-content>
-
     <main class="layout__main">
       <router-outlet></router-outlet>
     </main>

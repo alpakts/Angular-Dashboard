@@ -1,12 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
-
 @use '@angular/material' as mat;
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/
 h1{
   font-size: 24px !important;
   font-weight: bold !important;
@@ -99,7 +93,7 @@ table {
   @include mat.theme((
     color: mat.$violet-palette,
     typography: Roboto,
-    density: -3
+    density: -2
   ));
 }
 .mat-light-theme {

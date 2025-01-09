@@ -9,7 +9,13 @@ import { HasPermissionDirective } from '../auth/directives/has-permission.direct
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, ChartComponent, HasPermissionDirective],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatListModule,
+    ChartComponent,
+    HasPermissionDirective,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
@@ -25,16 +31,28 @@ export class DashboardComponent implements OnInit {
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
+    this.loadDashboardData();
+  }
+
+  private loadDashboardData(): void {
     this.loadMetrics();
     this.loadSalesTrends();
   }
 
-  loadMetrics(): void {
+  private loadMetrics(): void {
+    this.loadLowStockProducts();
+    this.loadExpiredProducts();
+    this.loadDailySales();
+  }
+
+  private loadLowStockProducts(): void {
     this.dashboardService.getLowStockProducts().subscribe((lowStock) => {
       this.lowStockProducts = lowStock;
       this.lowStockCount = lowStock.length;
     });
+  }
 
+  private loadExpiredProducts(): void {
     this.dashboardService.getExpiredProducts().subscribe((expiredProducts) => {
       this.expiredProducts = expiredProducts.map((product) => ({
         name: product.name,
@@ -42,35 +60,40 @@ export class DashboardComponent implements OnInit {
       }));
       this.expiredProductsCount = expiredProducts.length;
     });
+  }
 
+  private loadDailySales(): void {
     this.dashboardService.getDailySales().subscribe((sales) => {
       this.dailySales = sales;
     });
   }
 
-  loadSalesTrends(): void {
+  private loadSalesTrends(): void {
     this.dashboardService.getSalesTrends().subscribe((trends) => {
-      this.salesChartConfig = {
-        type: 'line',
-        data: {
-          labels: trends.labels,
-          datasets: [
-            {
-              data: trends.data,
-              label: 'Daily Sales',
-              backgroundColor: 'rgba(63,81,181,0.3)',
-              borderColor: 'rgba(63,81,181,1)',
-              fill: true,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          aspectRatio: 16 / 9,
-
-        },
-      };
+      this.salesChartConfig = this.createChartConfig(trends);
     });
+  }
+
+  private createChartConfig(trends: any): any {
+    return {
+      type: 'line',
+      data: {
+        labels: trends.labels,
+        datasets: [
+          {
+            data: trends.data,
+            label: 'Daily Sales',
+            backgroundColor: 'rgba(63,81,181,0.3)',
+            borderColor: 'rgba(63,81,181,1)',
+            fill: true,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        aspectRatio: 16 / 9,
+      },
+    };
   }
 }

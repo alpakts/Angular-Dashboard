@@ -26,7 +26,7 @@ export class ShiftService {
   addShift(shift: Shift): Observable<number> {
     return from(this.indexedDbService.shifts.add(shift));
   }
-  UpdateShift(shiftId: number, shift: Shift): Observable<number> {
+  updateShift(shiftId: number, shift: Shift): Observable<number> {
     return from(this.indexedDbService.shifts.update(shiftId, shift)).pipe(
       map((updatedCount) => {
         if (updatedCount === 0) {
